@@ -11,6 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.tara.itinerary.dto.ItineraryRequest;
 import com.tara.itinerary.dto.ItineraryResponse;
+import com.tara.itinerary.exception.ItineraryNotFoundException;
 import com.tara.itinerary.mapper.ItineraryMapper;
 import com.tara.itinerary.model.Itinerary;
 import com.tara.itinerary.repository.ItineraryRepository;
@@ -36,8 +37,7 @@ public class ItineraryServiceImp implements ItineraryService {
 	@Override
 	public ItineraryResponse getItinerary(UUID id) {
 		Itinerary itinerary = itineraryRepository.findById(id)
-				.orElseThrow(() -> new ResponseStatusException(
-						HttpStatus.NOT_FOUND,
+				.orElseThrow(() -> new ItineraryNotFoundException(
 						"Itinerary not found with id: " + id));
 		return itineraryMapper.toDto(itinerary);
 	}
@@ -53,8 +53,7 @@ public class ItineraryServiceImp implements ItineraryService {
 	@Override
 	public ItineraryResponse updateItinerary(UUID id, ItineraryRequest itineraryRequest) {
 		Itinerary existingItinerary = itineraryRepository.findById(id)
-				.orElseThrow(() -> new ResponseStatusException(
-						HttpStatus.NOT_FOUND,
+				.orElseThrow(() -> new ItineraryNotFoundException(
 						"Itinerary not found with id: " + id));
 		itineraryMapper.updateEntityFromDto(itineraryRequest, existingItinerary);
 		existingItinerary.setUpdatedAt(Instant.now());

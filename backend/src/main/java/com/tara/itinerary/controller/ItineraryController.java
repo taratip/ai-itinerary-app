@@ -19,6 +19,8 @@ import com.tara.itinerary.dto.ItineraryRequest;
 import com.tara.itinerary.dto.ItineraryResponse;
 import com.tara.itinerary.service.ItineraryService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/itineraries")
 @CrossOrigin(origins = "*")
@@ -27,7 +29,7 @@ public class ItineraryController {
 	private ItineraryService itineraryService;
 
 	@PostMapping
-	public ResponseEntity<ItineraryResponse> createItinerary(@RequestBody ItineraryRequest itineraryRequest) {
+	public ResponseEntity<ItineraryResponse> createItinerary(@Valid @RequestBody ItineraryRequest itineraryRequest) {
 		return ResponseEntity.ok(itineraryService.createItinerary(itineraryRequest));
 	}
 
@@ -44,7 +46,7 @@ public class ItineraryController {
 	@PutMapping("/{id}")
 	public ResponseEntity<ItineraryResponse> updateItinerary(
 			@PathVariable UUID id,
-			@RequestBody ItineraryRequest itineraryRequest) {
+			@Valid @RequestBody ItineraryRequest itineraryRequest) {
 		return ResponseEntity.ok(itineraryService.updateItinerary(id, itineraryRequest));
 	}
 
