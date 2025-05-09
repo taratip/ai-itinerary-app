@@ -1,12 +1,12 @@
 package com.tara.itinerary.dto;
 
-import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 
 import lombok.Data;
 
 @Data
 public class DayPlanRequest {
-	private Instant dateUtc;
+    private LocalDate date;
     private List<ActivityRequest> activities;
 }

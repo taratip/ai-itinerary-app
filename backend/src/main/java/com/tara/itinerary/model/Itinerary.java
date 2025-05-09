@@ -3,6 +3,7 @@ package com.tara.itinerary.model;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -17,8 +18,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Itinerary {
     @Id
-    private String id;
-    private String userId;
+    private UUID id;
     private String title;
     private String destination;
     private LocalDate startDate;
