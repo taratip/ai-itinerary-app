@@ -3,7 +3,6 @@ package com.tara.itinerary.dto;
 import java.time.LocalDate;
 import java.util.List;
 
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -28,11 +27,6 @@ public class ItineraryRequest {
     private LocalDate endDate;
 
     private List<String> travelers;
-
-    @NotNull(message = "Day plans are required")
-    @Size(min = 1, message = "At least one day plan is required")
-    @Valid
     private List<DayPlanRequest> dayPlans;
-
     private String notes;
 }
