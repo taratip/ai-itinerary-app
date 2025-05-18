@@ -1,14 +1,16 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "../pages/Home/Home.page";
-// Add more imports as needed
+import CreateItineraryPage from "../pages/Create/Create-Itinerary.page";
 
-export default function AppRouter() {
+const AppRouter = () => {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        {/* Other routes */}
+        <Route path="/create" element={<CreateItineraryPage />} />
       </Routes>
     </BrowserRouter>
   );
 }
+
+export default AppRouter;
