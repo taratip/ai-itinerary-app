@@ -50,4 +50,12 @@
 
 .submit-button {
     @apply w-full bg-blue-600 text-white py-3 rounded hover:bg-blue-700;
+
+    &:disabled {
+      @apply bg-gray-400 cursor-not-allowed;
+    }
+}
+
+.error-message {
+  @apply text-red-500 text-center mt-2;
 }
