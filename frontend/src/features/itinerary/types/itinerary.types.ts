@@ -18,12 +18,22 @@ export interface ActivityRequest {
     time: string;
     location: string;
     description?: string;
-    category?: string;
+    category?: "food" | "sightseeing" | "activity" | "transportation" | "other";
     notes?: string;
+}
+
+export interface ActivityResponse extends ActivityRequest {
+    id: string;
+}
+
+export interface DayPlanResponse extends DayPlanRequest {
+    id: string;
+    activities: ActivityResponse[];
 }
 
 export interface ItineraryResponse extends CreateItineraryRequest {
     id: string;
+    dayPlans: DayPlanResponse[];
     createdAt: string;
     updatedAt: string;
 }

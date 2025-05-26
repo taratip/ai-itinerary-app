@@ -2,6 +2,7 @@ import { useLocation, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import type { ItineraryResponse } from '../types/itinerary.types';
 import { itineraryService } from '../api/itinerary.service';
+import DayTab from '../components/day-tab';
 
 const ItineraryDetailPage = () => {
     const location = useLocation();
@@ -33,21 +34,7 @@ const ItineraryDetailPage = () => {
                 {itinerary.startDate} – {itinerary.endDate}
             </p>
 
-            {itinerary.dayPlans?.map((day, index) => (
-                <div key={index} className="mb-6">
-                <h2 className="text-xl font-semibold mb-2">Day {index + 1}</h2>
-                <ul className="space-y-2">
-                    {day.activities.map((activity, idx) => (
-                    <li key={idx} className="border p-3 rounded shadow-sm">
-                        <p className="font-medium">{activity.name}</p>
-                        <p className="text-sm text-gray-500">{activity.time}</p>
-                        <p className="text-sm">{activity.location}</p>
-                        {activity.notes && <p className="text-sm italic">{activity.notes}</p>}
-                    </li>
-                    ))}
-                </ul>
-                </div>
-            ))}
+            <DayTab days={itinerary.dayPlans} />
         </div>
     )
 }
