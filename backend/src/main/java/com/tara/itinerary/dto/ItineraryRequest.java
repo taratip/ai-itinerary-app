@@ -29,4 +29,7 @@ public class ItineraryRequest {
     private List<String> travelers;
     private List<DayPlanRequest> dayPlans;
     private String notes;
+
+    private String budget;
+    private List<String> interests;
 }

@@ -28,4 +28,6 @@ public class Itinerary {
     private Instant updatedAt;
     private List<DayPlan> days;
     private String notes;
+    private String budget;
+    private List<String> interests;
 }

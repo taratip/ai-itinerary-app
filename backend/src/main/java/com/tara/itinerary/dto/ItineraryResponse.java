@@ -23,4 +23,6 @@ public class ItineraryResponse {
     private Instant updatedAt;
     private List<DayPlanResponse> dayPlans;
     private String notes;
+    private String budget;
+    private List<String> interests;
 }

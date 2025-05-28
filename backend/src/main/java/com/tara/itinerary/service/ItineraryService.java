@@ -16,4 +16,6 @@ public interface ItineraryService {
 	ItineraryResponse updateItinerary(UUID id, ItineraryRequest itineraryRequest);
 
 	void deleteItinerary(UUID id);
+
+	ItineraryResponse generateItinerary(ItineraryRequest itineraryRequest);
 }

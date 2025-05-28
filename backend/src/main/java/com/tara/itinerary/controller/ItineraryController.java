@@ -55,4 +55,9 @@ public class ItineraryController {
 		itineraryService.deleteItinerary(id);
 		return ResponseEntity.noContent().build();
 	}
+
+	@PostMapping("/generate")
+	public ResponseEntity<ItineraryResponse> generateItinerary(@RequestBody ItineraryRequest itineraryRequest) {
+		return ResponseEntity.ok(itineraryService.generateItinerary(itineraryRequest));
+	}
 }
