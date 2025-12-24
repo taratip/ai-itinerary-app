@@ -8,6 +8,11 @@ export const itineraryService = {
         
     },
 
+    generateItinerary: async (itineraryData: CreateItineraryRequest): Promise<ItineraryResponse> => {
+        const response = await apiClient.post<ItineraryResponse>('/itineraries/generate', itineraryData);
+        return response.data;
+    },
+
     getItineraries: async (): Promise<ItineraryResponse[]> => {
         const response = await apiClient.get<ItineraryResponse[]>('/itineraries');
         return response.data;

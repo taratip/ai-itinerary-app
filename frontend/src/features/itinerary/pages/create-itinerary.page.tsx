@@ -46,20 +46,21 @@ const CreateItineraryPage = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // TODO: Send to backend for AI generation
+    // Send to backend for AI generation.
     console.log({ destination, startDate, endDate, budget, interests });
     setIsLoading(true);
     setError(null);
 
     try {
-      const response = await itineraryService.createItinerary({
+      const response = await itineraryService.generateItinerary({
         title,
         destination,
         startDate,
         endDate,
+        budget,
+        interests,
         notes: `Budget: $${budget}`,
-        travelers: [],
-        dayPlans: []
+        travelers: []
       });
 
       navigate(`/itinerary/${response.id}`, { state: response });

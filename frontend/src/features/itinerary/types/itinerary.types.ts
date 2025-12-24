@@ -6,6 +6,8 @@ export interface CreateItineraryRequest {
     travelers?: string[];
     dayPlans?: DayPlanRequest[];
     notes?: string;
+    budget?: string;
+    interests?: string[];
 }
 
 export interface DayPlanRequest {

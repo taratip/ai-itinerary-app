@@ -110,8 +110,11 @@ public class ItineraryServiceImp implements ItineraryService {
 							HttpStatus.INTERNAL_SERVER_ERROR,
 							"No response content from OpenAI"));
 
-			ItineraryResponse itineraryResponse = parseGeneratedResponse(response, itineraryRequest);
-			return itineraryResponse;
+			System.out.println("OpenAI raw response: " + response);
+
+			Itinerary generatedItinerary = parseGeneratedResponse(response, itineraryRequest);
+			Itinerary savedItinerary = itineraryRepository.save(generatedItinerary);
+			return itineraryMapper.toDto(savedItinerary);
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to generate itinerary", e);
 		}
@@ -157,13 +160,27 @@ public class ItineraryServiceImp implements ItineraryService {
 				- Brief descriptions
 				- Categories (e.g., sightseeing, dining, adventure)
 
-				Format the response as JSON
+				Return ONLY valid JSON with this exact shape:
+				{
+				  "itinerary": {
+				    "YYYY-MM-DD": {
+				      "activities": [
+				        {
+				          "time": "09:00",
+				          "location": "Place name",
+				          "description": "Short description",
+				          "category": "sightseeing"
+				        }
+				      ]
+				    }
+				  }
+				}
 				""");
 
 		return promptBuilder.toString();
 	}
 
-	private ItineraryResponse parseGeneratedResponse(String response, ItineraryRequest itineraryRequest) {
+	private Itinerary parseGeneratedResponse(String response, ItineraryRequest itineraryRequest) {
 		try {
 			String cleanedResponse = response
 					.replaceAll("^```json\\s*", "") // Remove opening ```json
@@ -174,6 +191,11 @@ public class ItineraryServiceImp implements ItineraryService {
 			ObjectMapper mapper = new ObjectMapper();
 			JsonNode rootNode = mapper.readTree(cleanedResponse);
 			JsonNode itineraryNode = rootNode.get("itinerary");
+			if (itineraryNode == null || itineraryNode.isNull()) {
+				throw new ResponseStatusException(
+						HttpStatus.INTERNAL_SERVER_ERROR,
+						"OpenAI response missing 'itinerary' key: " + truncate(cleanedResponse, 500));
+			}
 
 			Itinerary itinerary = new Itinerary();
 			itinerary.setTitle(itineraryRequest.getTitle());
@@ -210,7 +232,7 @@ public class ItineraryServiceImp implements ItineraryService {
 
 			itinerary.setDays(dayPlans);
 
-			return itineraryMapper.toDto(itinerary);
+			return itinerary;
 		} catch (Exception e) {
 			System.err.println("Failed to parse response: " + e.getMessage());
 			e.printStackTrace();
@@ -241,5 +263,12 @@ public class ItineraryServiceImp implements ItineraryService {
 			}
 		}
 		return activities;
+	}
+
+	private String truncate(String value, int maxLen) {
+		if (value == null || value.length() <= maxLen) {
+			return value;
+		}
+		return value.substring(0, maxLen) + "...";
 	}
 }
